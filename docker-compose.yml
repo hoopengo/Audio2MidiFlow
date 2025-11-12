@@ -8,7 +8,8 @@ services:
     environment:
       - DEBUG=false
       - LOG_LEVEL=INFO
-      - DATABASE_URL=sqlite:///./data/audio2midi.db
+      # Use absolute path inside container; persisted via bind-mounted ./data -> /app/data
+      - DATABASE_URL=sqlite:////app/data/audio2midi.db
       - UPLOAD_DIR=./uploads
       - OUTPUT_DIR=./outputs
       - MAX_FILE_SIZE=52428800
