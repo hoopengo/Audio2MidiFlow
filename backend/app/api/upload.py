@@ -8,7 +8,7 @@ from pydantic import BaseModel
 # Check database connection first
 from ..database import check_database_health, get_async_db
 from ..models import OperationHistory, OperationType, Task
-from ..tasks.manager import TaskManager
+from ..tasks.manager import get_task_manager
 from ..utils import get_file_handler, validate_mp3_file
 from ..utils.logging import log_task_event
 
@@ -150,8 +150,8 @@ async def upload_file(
             db.add(operation)
             await db.commit()
 
-        # Start background processing
-        task_manager = TaskManager()
+        # Start background processing using shared manager
+        task_manager = get_task_manager()
         background_tasks.add_task(task_manager.process_task, task.task_id)
 
         # Log task creation event
@@ -227,7 +227,7 @@ async def upload_multiple_files(
             )
 
         # Process each file
-        task_manager = TaskManager()
+        task_manager = get_task_manager()
         created_tasks = []
 
         async with get_async_db() as db:

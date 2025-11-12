@@ -267,11 +267,9 @@ async def websocket_endpoint(websocket):
 # Middleware for request logging
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    """Log all requests"""
+    """Log all requests with processing time."""
     start_time = asyncio.get_event_loop().time()
-
     response = await call_next(request)
-
     process_time = asyncio.get_event_loop().time() - start_time
 
     logger.info(
@@ -280,28 +278,28 @@ async def log_requests(request: Request, call_next):
         f"Time: {process_time:.4f}s"
     )
 
-    # Add processing time header
     response.headers["X-Process-Time"] = str(process_time)
-
     return response
 
 
 # Database health check middleware
 @app.middleware("http")
-async def check_database_health(request: Request, call_next):
-    """Check database health before processing requests"""
-    # Skip health check for health endpoint itself and statistics endpoint
-    # to avoid potential circular dependency issues
-    if request.url.path in ["/health", "/api/v1/tasks/statistics"]:
+async def check_database_health_middleware(request: Request, call_next):
+    """
+    Check database health before processing requests.
+
+    Skips:
+    - /health
+    - /api/v1/tasks/statistics
+    """
+    if request.url.path in ("/health", "/api/v1/tasks/statistics"):
         return await call_next(request)
 
     try:
-        # Quick database health check
         from .database import check_database_health
 
         db_health = await check_database_health()
-
-        if db_health["status"] != "healthy":
+        if db_health.get("status") != "healthy":
             return JSONResponse(
                 status_code=503,
                 content={
