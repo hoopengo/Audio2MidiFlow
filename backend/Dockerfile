@@ -29,6 +29,7 @@ COPY . .
 
 # Create necessary directories
 RUN mkdir -p /app/uploads /app/outputs /app/data
+RUN touch /app/data/audio2midi.db
 
 # Create non-root user for security
 RUN useradd --create-home --shell /bin/bash app && \
