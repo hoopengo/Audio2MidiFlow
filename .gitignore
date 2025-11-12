@@ -208,7 +208,6 @@ converted/
 *.pth
 *.ckpt
 *.model
-models/
 data/
 datasets/
 
