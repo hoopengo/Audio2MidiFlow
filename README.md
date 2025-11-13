@@ -77,8 +77,7 @@ mkdir -p uploads outputs data
 cat > .env << EOF
 DEBUG=true
 LOG_LEVEL=INFO
-# SQLite database stored in /app/data inside the backend container (mounted from ./data on host)
-DATABASE_URL=sqlite:////app/data/audio2midi.db
+DATABASE_URL=sqlite:///./data/audio2midi.db
 UPLOAD_DIR=./uploads
 OUTPUT_DIR=./outputs
 MAX_FILE_SIZE=52428800

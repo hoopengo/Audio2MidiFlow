@@ -1,6 +1,7 @@
 import os
 from typing import List
 
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -28,9 +29,7 @@ class Settings(BaseSettings):
     cleanup_after_hours: int = 24
 
     # Database settings
-    # Default to absolute path inside container for robustness.
-    # Can be overridden via env var DATABASE_URL (e.g. sqlite:////app/data/audio2midi.db).
-    database_url: str = "sqlite:////app/data/audio2midi.db"
+    database_url: str = Field(default="sqlite:///./data/audio2midi.db")
 
     # CORS settings
     cors_origins: List[str] = ["http://localhost:3000", "http://127.0.0.1:3000"]
