@@ -13,8 +13,8 @@ Audio2MidiFlow - это веб-приложение, которое позвол
 
 ### Обязательные:
 
-- **Python 3.12+** - для бэкенда
-- **Node.js 22+** - для фронтенда
+- **Python 3.11+** - для бэкенда
+- **Node.js 18+** - для фронтенда
 - **npm** - менеджер пакетов Node.js
 
 ### Опционально (для Docker-запуска):
@@ -59,7 +59,7 @@ chmod +x setup.sh
 cd backend
 
 # Создай виртуальное окружение
-python3.12 -m venv .venv
+python3 -m venv .venv
 
 # Активируй его
 source .venv/bin/activate  # для Linux/Mac
